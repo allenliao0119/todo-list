@@ -4,6 +4,9 @@ const {engine} = require('express-handlebars')
 
 const port = 3000
 
+const db = require('./models')
+const Todo = db.Todo
+
 app.engine('hbs', engine({defaultLayout: 'main', extname: '.hbs'}))
 app.set('view engine', 'hbs')
 app.set('views', './views')
@@ -25,7 +28,12 @@ app.post('/todos', (req, res) => {
 
 // read todo
 app.get('/todos', (req, res) => {
-  res.send('read all todos.')
+  return Todo.findAll({
+    attributes: ['id', 'name'],
+    raw: true
+  })
+    .then(todos => res.render('todos', {todos}))
+    .catch(error => res.status(422).json(error))
 })
 
 app.get('/todos/:id', (req, res) => {
