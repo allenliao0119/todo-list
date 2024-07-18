@@ -5,6 +5,7 @@ const {engine} = require('express-handlebars')
 const port = 3000
 
 const db = require('./models')
+const { raw } = require('mysql2')
 const Todo = db.Todo
 
 app.engine('hbs', engine({defaultLayout: 'main', extname: '.hbs'}))
@@ -37,7 +38,12 @@ app.get('/todos', (req, res) => {
 })
 
 app.get('/todos/:id', (req, res) => {
-  res.send(`read todo: ${req.params.id}.`)
+  const id = req.params.id
+  return Todo.findByPk(id, {
+    attributes: ['id', 'name'],
+    raw: true
+  })
+    .then(todo => res.render('todo', {todo}))
 })
   
 // update todo
