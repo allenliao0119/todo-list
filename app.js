@@ -1,12 +1,17 @@
 const express = require('express')
 const app = express()
+const {engine} = require('express-handlebars')
 
 const port = 3000
+
+app.engine('hbs', engine({defaultLayout: 'main', extname: '.hbs'}))
+app.set('view engine', 'hbs')
+app.set('views', './views')
 
 // ----define routes----
 // initialize
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.render('index')
 })
 
 // create todo
@@ -26,7 +31,7 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
   res.send(`read todo: ${req.params.id}.`)
 })
-
+  
 // update todo
 app.get('/todos/:id/edit', (req, res) => {
   res.send(`todo: ${req.params.id} edit page.`)
