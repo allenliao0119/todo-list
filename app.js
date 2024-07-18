@@ -13,6 +13,8 @@ app.set('view engine', 'hbs')
 app.set('views', './views')
 
 // ----define routes----
+app.use(express.urlencoded({extended: true}))
+
 // initialize
 app.get('/', (req, res) => {
   res.render('index')
@@ -20,11 +22,13 @@ app.get('/', (req, res) => {
 
 // create todo
 app.get('/todos/new', (req, res) => {
-  res.send('create todo page.')
+  res.render('new')
 })
 
 app.post('/todos', (req, res) => {
-  res.send('todo has been created.')
+  const name =req.body.name
+  return Todo.create({name})
+    .then(() => res.redirect('/todos'))
 })
 
 // read todo
