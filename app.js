@@ -71,7 +71,9 @@ app.put('/todos/:id', (req, res) => {
 
 // delete todo
 app.delete('/todos/:id', (req, res) => {
-  res.send(`todo: ${req.params.id} has been deleted.`)
+  const id = req.params.id
+  return Todo.destroy({where: {id}})
+    .then(() => res.redirect('/todos'))
 })
 
 // ----start to listen on port----
