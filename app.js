@@ -36,7 +36,7 @@ app.post('/todos', (req, res) => {
 // read todo
 app.get('/todos', (req, res) => {
   return Todo.findAll({
-    attributes: ['id', 'name'],
+    attributes: ['id', 'name', 'isCompleted'],
     raw: true
   })
     .then(todos => res.render('todos', {todos}))
@@ -46,7 +46,7 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findByPk(id, {
-    attributes: ['id', 'name'],
+    attributes: ['id', 'name', 'isCompleted'],
     raw: true
   })
     .then(todo => res.render('todo', {todo}))
@@ -56,7 +56,7 @@ app.get('/todos/:id', (req, res) => {
 app.get('/todos/:id/edit', (req, res) => {
   const id = req.params.id
   return Todo.findByPk(id, {
-    attributes: ['id', 'name'],
+    attributes: ['id', 'name', 'isCompleted'],
     raw: true
   })
     .then(todo => res.render('edit', {todo}))
@@ -64,8 +64,8 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.put('/todos/:id', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
-  return Todo.update({name}, {where: {id}})
+  const {name, isCompleted} = req.body
+  return Todo.update({name, isCompleted: isCompleted === 'completed'}, {where: {id}})
     .then(() => res.redirect(`/todos/${id}`))
 })
 
