@@ -1,4 +1,10 @@
+{{#if message}}
+<div>{{message}}</div>
+{{/if}}
+{{#if error}}
+<div>{{error}}</div>
+{{/if}}
 <form action="/todos" method="POST">
-  <input type="text" placeholder="Please input todo name" name="name" required>
+  <input type="text" placeholder="Please input todo name" name="name">
   <button type="submit">Create</button>
 </form>

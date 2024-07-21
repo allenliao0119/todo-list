@@ -32,65 +32,150 @@ app.get('/', (req, res) => {
 
 // create todo
 app.get('/todos/new', (req, res) => {
-  res.render('new')
+  try {
+    res.render('new', { error: req.flash('error') })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '伺服器錯誤')
+    res.redirect('back')
+  }
 })
 
 app.post('/todos', (req, res) => {
-  const name =req.body.name
-  return Todo.create({name})
-    .then(() => {
-      req.flash('success', '新增成功!')
-      res.redirect('/todos')})
+  try {
+    const name = req.body.name
+    return Todo.create({ name })
+      .then(() => {
+        req.flash('success', '新增成功!')
+        res.redirect('/todos')
+      })
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '新增失敗:(')
+        res.redirect('back') 
+      })
+  } 
+  catch (error) {
+    console.log(error)
+    req.flash('error', '新增失敗:(')
+    res.redirect('back')
+  }
+  
 })
 
 // read todo
 app.get('/todos', (req, res) => {
-  const message = req.flash('success')
-  return Todo.findAll({
-    attributes: ['id', 'name', 'isCompleted'],
-    raw: true
-  })
-    .then(todos => res.render('todos', {todos, message}))
-    .catch(error => res.status(422).json(error))
+  try {
+    return Todo.findAll({
+      attributes: ['id', 'name', 'isCompleted'],
+      raw: true
+    })
+      .then(todos => res.render('todos', { todos, message: req.flash('success'), error: req.flash('error') }))
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '資料取得失敗')
+        res.redirect('back')
+      })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '伺服器錯誤')
+    res.redirect('back')
+  }
+  
 })
 
 app.get('/todos/:id', (req, res) => {
-  const message = req.flash('success')
-  const id = req.params.id
-  return Todo.findByPk(id, {
-    attributes: ['id', 'name', 'isCompleted'],
-    raw: true
-  })
-    .then(todo => res.render('todo', {todo, message}))
+  try {
+    const id = req.params.id
+    return Todo.findByPk(id, {
+      attributes: ['id', 'name', 'isCompleted'],
+      raw: true
+    })
+      .then(todo => res.render('todo', { todo, message: req.flash('success') }))
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '資料取得失敗')
+        res.redirect('back')
+      })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '伺服器錯誤')
+    res.redirect('back')
+  }
+  
 })
   
 // update todo
 app.get('/todos/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Todo.findByPk(id, {
-    attributes: ['id', 'name', 'isCompleted'],
-    raw: true
-  })
-    .then(todo => res.render('edit', {todo}))
+  try {
+    const id = req.params.id
+    return Todo.findByPk(id, {
+      attributes: ['id', 'name', 'isCompleted'],
+      raw: true
+    })
+      .then(todo => res.render('edit', { todo }))
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '資料取得失敗')
+        res.redirect('back')
+      })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '伺服器錯誤')
+    res.redirect('back')
+  }
+  
 })
 
 app.put('/todos/:id', (req, res) => {
-  const id = req.params.id
-  const {name, isCompleted} = req.body
-  console.log(req.body)
-  return Todo.update({name, isCompleted: isCompleted === 'completed'}, {where: {id}})
-    .then(() => {
-      req.flash('success', '修改成功!')
-      res.redirect(`/todos/${id}`)})
+  try {
+    const id = req.params.id
+    const { name, isCompleted } = req.body
+    console.log(req.body)
+    return Todo.update({ name, isCompleted: isCompleted === 'completed' }, { where: { id } })
+      .then(() => {
+        req.flash('success', '修改成功!')
+        res.redirect(`/todos/${id}`)
+      })
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '修改失敗:(')
+        res.redirect('back')
+      })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '修改失敗:(')
+    res.redirect('back')
+  }
+  
 })
 
 // delete todo
 app.delete('/todos/:id', (req, res) => {
-  const id = req.params.id
-  return Todo.destroy({where: {id}})
-    .then(() => {
-      req.flash('success', '刪除成功!')
-      res.redirect('/todos')})
+  try {
+    const id = req.params.id
+    return Todo.destroy({ where: { id } })
+      .then(() => {
+        req.flash('success', '刪除成功!')
+        res.redirect('/todos')
+      })
+      .catch(error => {
+        console.log(error)
+        req.flash('error', '刪除失敗:(')
+        res.redirect('back')
+      })
+  }
+  catch (error) {
+    console.log(error)
+    req.flash('error', '刪除失敗:(')
+    res.redirect('back')
+  }
+  
 })
 
 // ----start to listen on port----
