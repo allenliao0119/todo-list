@@ -1,3 +1,6 @@
+{{#if message}}
+<div>{{message}}</div>
+{{/if}}
 <p>
   <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="isCompleted" {{#if todo.isCompleted}}checked{{/if}} disabled>
   {{todo.name}}
