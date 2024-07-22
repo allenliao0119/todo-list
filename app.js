@@ -36,9 +36,9 @@ app.get('/todos/new', (req, res) => {
     res.render('new', { error: req.flash('error') })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '伺服器錯誤')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '伺服器錯誤')
+        res.redirect('back')
   }
 })
 
@@ -51,15 +51,15 @@ app.post('/todos', (req, res) => {
         res.redirect('/todos')
       })
       .catch(error => {
-        console.log(error)
-        req.flash('error', '新增失敗:(')
-        res.redirect('back') 
+            console.log(error)
+            req.flash('error', '新增失敗:(')
+            res.redirect('back') 
       })
   } 
   catch (error) {
-    console.log(error)
-    req.flash('error', '新增失敗:(')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '新增失敗:(')
+        res.redirect('back')
   }
   
 })
@@ -73,15 +73,15 @@ app.get('/todos', (req, res) => {
     })
       .then(todos => res.render('todos', { todos, message: req.flash('success'), error: req.flash('error') }))
       .catch(error => {
-        console.log(error)
-        req.flash('error', '資料取得失敗')
-        res.redirect('back')
+            console.log(error)
+            req.flash('error', '資料取得失敗')
+            res.redirect('back')
       })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '伺服器錯誤')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '伺服器錯誤')
+        res.redirect('back')
   }
   
 })
@@ -93,17 +93,17 @@ app.get('/todos/:id', (req, res) => {
       attributes: ['id', 'name', 'isCompleted'],
       raw: true
     })
-      .then(todo => res.render('todo', { todo, message: req.flash('success') }))
+      .then(todo => res.render('todo', { todo, message: req.flash('success'), message: req.flash('error') }))
       .catch(error => {
-        console.log(error)
-        req.flash('error', '資料取得失敗')
-        res.redirect('back')
+            console.log(error)
+            req.flash('error', '資料取得失敗')
+            res.redirect('back')
       })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '伺服器錯誤')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '伺服器錯誤')
+        res.redirect('back')
   }
   
 })
@@ -116,17 +116,17 @@ app.get('/todos/:id/edit', (req, res) => {
       attributes: ['id', 'name', 'isCompleted'],
       raw: true
     })
-      .then(todo => res.render('edit', { todo }))
+      .then(todo => res.render('edit', { todo, error: req.flash('error') }))
       .catch(error => {
-        console.log(error)
-        req.flash('error', '資料取得失敗')
-        res.redirect('back')
+            console.log(error)
+            req.flash('error', '資料取得失敗')
+            res.redirect('back')
       })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '伺服器錯誤')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '伺服器錯誤')
+        res.redirect('back')
   }
   
 })
@@ -142,15 +142,15 @@ app.put('/todos/:id', (req, res) => {
         res.redirect(`/todos/${id}`)
       })
       .catch(error => {
-        console.log(error)
-        req.flash('error', '修改失敗:(')
-        res.redirect('back')
+            console.log(error)
+            req.flash('error', '修改失敗:(')
+            res.redirect('back')
       })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '修改失敗:(')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '修改失敗:(')
+        res.redirect('back')
   }
   
 })
@@ -165,15 +165,15 @@ app.delete('/todos/:id', (req, res) => {
         res.redirect('/todos')
       })
       .catch(error => {
-        console.log(error)
-        req.flash('error', '刪除失敗:(')
-        res.redirect('back')
+            console.log(error)
+            req.flash('error', '刪除失敗:(')
+            res.redirect('back')
       })
   }
   catch (error) {
-    console.log(error)
-    req.flash('error', '刪除失敗:(')
-    res.redirect('back')
+        console.log(error)
+        req.flash('error', '刪除失敗:(')
+        res.redirect('back')
   }
   
 })
