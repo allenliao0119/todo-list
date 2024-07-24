@@ -28,9 +28,11 @@ router.get('/', (req, res, next) => {
   const limit = 10
   return Todo.findAll({
         attributes: ['id', 'name', 'isCompleted'],
+        offset: (page - 1) * limit,
+        limit: limit,
         raw: true
   })
-        .then(todos => res.render('todos', { todos: todos.slice((page - 1) * limit, page * limit),
+        .then(todos => res.render('todos', { todos,
                                              prev : page > 1 ? page - 1 : page, 
                                              next : page + 1,
                                              page
