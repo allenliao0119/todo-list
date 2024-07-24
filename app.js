@@ -5,6 +5,9 @@ const app = express()
 
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config()
+}
 
 const router = require('./routes')
 const messageHandler = require('./middlewares/message-handler')
@@ -20,7 +23,7 @@ app.set('views', './views')
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 app.use(session({
-  secret: 'keyboard dog',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
@@ -31,6 +34,8 @@ app.use(messageHandler)
 app.use(router)
 
 app.use(errorHandler)
+
+console.log(process.env.SESSION_SECRET)
 
 // ----start to listen on port----
 app.listen(port, (req, res) => {
