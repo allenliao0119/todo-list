@@ -35,8 +35,6 @@ app.use(router)
 
 app.use(errorHandler)
 
-console.log(process.env.SESSION_SECRET)
-
 // ----start to listen on port----
 app.listen(port, (req, res) => {
   console.log(`App is running on http://localhost:${port}`)
