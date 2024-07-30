@@ -4,11 +4,6 @@ const router = express.Router()
 const db = require('../models')
 const User = db.User
 
-// register
-router.get('/register', (req, res) => {
-  res.render('register')
-})
-
 router.post('/', (req, res) => {
   const user = req.body
   if (user.email === '' || user.password === '') {
@@ -31,7 +26,7 @@ router.post('/', (req, res) => {
       const [user, existed] = result
       if (existed) {
         req.flash('success', '註冊成功')
-        res.redirect('/users/login')
+        res.redirect('/login')
       } else {
         req.flash('error', 'email 已註冊')
         res.redirect('back')
@@ -41,20 +36,6 @@ router.post('/', (req, res) => {
       error.error_msg = '註冊失敗'
       next(error)
     })
-})
-
-// login
-router.get('/login', (req, res) => {
-  res.render('login')
-})
-
-router.post('/login', (req, res) => {
-
-  res.send('user login')
-})
-
-router.post('/logout', (req, res) => {
-  res.send('user logout')
 })
 
 module.exports = router
