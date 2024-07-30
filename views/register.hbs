@@ -1,0 +1,27 @@
+<div class="container">
+  <form action="/users" method="POST">
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-label">Name (Optional)</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Please input name" name="name" value="{{user.name}}">
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput2" class="form-label">Email</label>
+      <input type="email" class="form-control" id="formGroupExampleInput2" placeholder="Please input email"
+        name="email" value="{{user.email}}">
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput2" class="form-label">Password</label>
+      <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Please input password"
+        name="password">
+    </div>
+    <div class="mb-3">  
+      <label for="formGroupExampleInput2" class="form-label">Confirm Password</label>
+      <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Please confirm password"
+        name="passwordConfirm">
+    </div>
+    <button type="submit">Register</button>
+    <span>Already have an account?</span><a href="/users/login">Login</a>
+  </form>
+  {{>message}}
+</div>
+
