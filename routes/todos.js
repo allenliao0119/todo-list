@@ -24,7 +24,6 @@ router.post('/', (req, res, next) => {
 
 // read todo
 router.get('/', (req, res, next) => {
-  console.log('session:',req.session)
   const page = parseInt(req.query.page) || 1
   const limit = 10
   return Todo.findAll({

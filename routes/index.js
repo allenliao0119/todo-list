@@ -29,12 +29,17 @@ passport.serializeUser((user, done) => {
   return done(null, {id, name, email})
 })
 
+passport.deserializeUser((user, done) => {
+  return done(null, {id: user.id})
+})
+
 const users = require('./users')
 const todos = require('./todos')
 const { where } = require('sequelize')
+const authHandler = require('../middlewares/auth-handler')
 
 router.use('/users', users)
-router.use('/todos', todos)
+router.use('/todos', authHandler, todos)
 
 router.get('/', (req, res) => {
   res.render('index')
@@ -57,8 +62,14 @@ router.post('/login', passport.authenticate('local', {
 })
 )
 
-router.post('/logout', (req, res) => {
-  res.send('user logout')
+// logout
+router.post('/logout', (req, res, next) => {
+  req.logOut((error) => {
+    if (error) {
+      next(error)
+    }
+    return res.redirect('/login')
+  })
 })
 
 module.exports = router
