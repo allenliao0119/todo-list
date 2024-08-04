@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
       }
     })
     .catch(error => {
-      error.error_msg = '註冊失敗'
+      error.errorMessage = '註冊失敗'
       next(error)
     })
 })
